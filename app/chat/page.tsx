@@ -83,7 +83,7 @@ export default function Home() {
 
       <form
         onSubmit={handleSubmit}
-        className="bottom-0 fixed bg-white dark:bg-black rounded m-6 w-full px-4"
+        className="bottom-0 fixed rounded m-6 w-full px-4"
       >
         <div className="flex items-center gap-2 max-w-3xl mx-auto">
           <Input
