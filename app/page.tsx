@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { useUser } from "@clerk/nextjs"
+import { useUser, SignUpButton} from "@clerk/nextjs" // 👈 import SignUpButton
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import Aurora from "@/components/Aurora/Aurora"
@@ -31,41 +31,7 @@ export default function Home() {
   }, [])
 
   const handleClick = () => {
-    if (isSignedIn) {
-      router.push("/chat")
-    } else {
-      router.push("/sign-up")
-    }
-  }
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3,
-      },
-    },
-  }
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { type: "spring", stiffness: 100 },
-    },
-  }
-
-  const buttonVariants = {
-    initial: { scale: 1 },
-    hover: {
-      scale: 1.05,
-      boxShadow: "0 5px 15px rgba(0, 0, 0, 0.1)",
-      transition: { type: "spring", stiffness: 400, damping: 10 },
-    },
-    tap: { scale: 0.95 },
+    router.push("/chat")
   }
 
   return (
@@ -102,47 +68,52 @@ export default function Home() {
 
       <motion.div
         className="z-10 relative flex flex-col items-center justify-center text-center px-4 mt-[-100px] max-w-3xl mx-auto"
-        variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
         <motion.h1
           className="text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-green-300 via-green-500 to-emerald-500"
-          variants={itemVariants}
         >
           Ayurveda AI
         </motion.h1>
 
-        <motion.div variants={itemVariants} className="space-y-4 mb-8">
-          <motion.p className="text-xl font-medium" variants={itemVariants}>
+        <motion.div className="space-y-4 mb-8">
+          <motion.p className="text-xl font-medium">
             Your Intelligent Guide to Natural Healing
           </motion.p>
 
-          <motion.p className="text-lg text-gray-300" variants={itemVariants}>
+          <motion.p className="text-lg text-gray-300">
             Curious about symptoms or looking for holistic remedies? Just ask!
           </motion.p>
 
-          <motion.p className="text-lg text-gray-300" variants={itemVariants}>
+          <motion.p className="text-lg text-gray-300">
             Ayurveda AI combines ancient Ayurvedic wisdom with modern AI to give you natural insights, symptoms, and
             herbal cures—personalized and trustworthy.
           </motion.p>
 
           <motion.p
             className="text-lg font-medium text-green-400"
-            variants={itemVariants}
             whileHover={{ scale: 1.05 }}
           >
             🪔 Ask about any disease. Get Ayurvedic answers instantly.
           </motion.p>
         </motion.div>
 
-        <motion.div variants={itemVariants} whileHover="hover" whileTap="tap">
-          <Button
-            onClick={handleClick}
-            className="bg-green-500 hover:bg-green-600 text-lg px-8 py-6 rounded-full shadow-lg"
-          >
-            {isSignedIn ? "Start Chatting" : "Sign Up to Get Started"}
-          </Button>
+        <motion.div whileHover="hover" whileTap="tap">
+          {isSignedIn ? (
+            <Button
+              onClick={handleClick}
+              className="bg-green-500 hover:bg-green-600 text-lg px-8 py-6 rounded-full shadow-lg"
+            >
+              Start Chatting
+            </Button>
+          ) : (
+            <SignUpButton mode="modal">
+              <Button className="bg-green-500 hover:bg-green-600 text-lg px-8 py-6 rounded-full shadow-lg">
+                Sign Up to Get Started
+              </Button>
+            </SignUpButton>
+          )}
         </motion.div>
       </motion.div>
       <Footer />
